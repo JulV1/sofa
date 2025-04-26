@@ -15,16 +15,23 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MultiSelect } from "@/components/ui/multi-select";
+import { MultiSelect, MultiSelectOption } from "@/components/ui/multi-select";
 import { Interaction } from '@/types/models';
-import { contacts, tags } from '@/data/mockData';
+import { contacts } from '@/data/mockData';
+import { ACTIVITY_TAGS } from '@/constants/activityTags';
 
 const formSchema = z.object({
   type: z.string(),
   title: z.string().min(1, "Název je povinný"),
   description: z.string(),
-  tags: z.array(z.object({ value: z.string(), label: z.string() })),
-  relatedContacts: z.array(z.object({ value: z.string(), label: z.string() }))
+  tags: z.array(z.object({
+    value: z.string(),
+    label: z.string()
+  })),
+  relatedContacts: z.array(z.object({
+    value: z.string(),
+    label: z.string()
+  }))
 });
 
 interface ActivityFormProps {
@@ -39,20 +46,16 @@ export function ActivityForm({ defaultValues, onSubmit }: ActivityFormProps) {
       type: defaultValues?.type || "note",
       title: defaultValues?.title || "",
       description: defaultValues?.description || "",
-      tags: defaultValues?.tags?.map(tag => ({ value: tag.id, label: tag.name })) || [],
+      tags: defaultValues?.tags?.map(tag => ({
+        value: tag.id,
+        label: tag.name
+      })) || [],
       relatedContacts: defaultValues?.relatedContacts?.map(contact => ({
         value: contact.id,
         label: `${contact.firstName} ${contact.lastName}`
       })) || []
     }
   });
-
-  const tagOptions = React.useMemo(() => {
-    return tags.map(tag => ({
-      value: tag.id,
-      label: tag.name
-    }));
-  }, []);
 
   const contactOptions = React.useMemo(() => {
     return contacts.map(contact => ({
@@ -127,12 +130,12 @@ export function ActivityForm({ defaultValues, onSubmit }: ActivityFormProps) {
           name="tags"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Štítky</FormLabel>
+              <FormLabel>Témata</FormLabel>
               <FormControl>
                 <MultiSelect
-                  options={tagOptions}
-                  placeholder="Vyberte štítky"
-                  defaultValue={field.value}
+                  options={ACTIVITY_TAGS}
+                  placeholder="Vyberte témata"
+                  defaultValue={field.value as MultiSelectOption[]}
                   onChange={field.onChange}
                 />
               </FormControl>
@@ -151,7 +154,7 @@ export function ActivityForm({ defaultValues, onSubmit }: ActivityFormProps) {
                 <MultiSelect
                   options={contactOptions}
                   placeholder="Vyberte kontakty"
-                  defaultValue={field.value}
+                  defaultValue={field.value as MultiSelectOption[]}
                   onChange={field.onChange}
                 />
               </FormControl>

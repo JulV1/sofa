@@ -4,6 +4,7 @@ import { Calendar, Users, BookOpen, ShoppingBag, Edit, Trash2 } from 'lucide-rea
 import { Interaction, Meeting, Training, Purchase, Note } from '@/types/models';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
+import { getTagColor } from '@/constants/activityTags';
 
 interface InteractionItemProps {
   interaction: Interaction;
@@ -159,7 +160,11 @@ export const InteractionItem: React.FC<InteractionItemProps> = ({
             <Badge 
               key={tag.id} 
               variant="outline"
-              style={{ borderColor: tag.color, color: tag.color }} 
+              style={{ 
+                borderColor: getTagColor(tag.id),
+                color: getTagColor(tag.id),
+                backgroundColor: `${getTagColor(tag.id)}10`
+              }} 
               className="text-xs"
             >
               {tag.name}
