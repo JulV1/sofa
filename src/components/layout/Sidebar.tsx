@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, Building, FileText, User, Settings } from 'lucide-react';
@@ -26,9 +25,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
     >
       <div className="p-4 border-b border-crm-border flex items-center justify-center">
         {isOpen ? (
-          <h1 className="text-xl font-bold text-crm-primary">CRM Nexus</h1>
+          <h1 className="text-xl font-bold text-crm-primary">SOFA CRM</h1>
         ) : (
-          <span className="text-xl font-bold text-crm-primary">CN</span>
+          <span className="text-xl font-bold text-crm-primary">SC</span>
         )}
       </div>
       <nav className="flex-1 overflow-y-auto py-4">
