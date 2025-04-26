@@ -4,17 +4,19 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { Search, Plus, Filter } from 'lucide-react';
 import { meetings, trainings, purchases, notes } from '@/data/mockData';
-import { format } from 'date-fns';
-import { InteractionItem } from '@/components/interactions/InteractionItem';
 import { Interaction } from '@/types/models';
+import { InteractionItem } from '@/components/interactions/InteractionItem';
+import { ActivityDialog } from '@/components/activities/ActivityDialog';
+import { useToast } from "@/hooks/use-toast";
 
 const ActivityPage = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [selectedActivity, setSelectedActivity] = React.useState<Interaction | undefined>();
+  const { toast } = useToast();
   
-  // Combine all interaction types
   const allActivities: Interaction[] = [
     ...meetings,
     ...trainings,
@@ -41,6 +43,44 @@ const ActivityPage = () => {
     setFilteredActivities(filtered);
   }, [searchTerm, allActivities]);
 
+  const handleCreateActivity = () => {
+    setSelectedActivity(undefined);
+    setIsDialogOpen(true);
+  };
+
+  const handleEditActivity = (activity: Interaction) => {
+    setSelectedActivity(activity);
+    setIsDialogOpen(true);
+  };
+
+  const handleDeleteActivity = (activity: Interaction) => {
+    // In the future, this would make an API call
+    console.log('Deleting activity:', activity);
+    toast({
+      title: "Aktivita smazána",
+      description: "Aktivita byla úspěšně smazána",
+    });
+  };
+
+  const handleSubmitActivity = (data: any) => {
+    if (selectedActivity) {
+      // Update existing activity
+      console.log('Updating activity:', data);
+      toast({
+        title: "Aktivita upravena",
+        description: "Aktivita byla úspěšně upravena",
+      });
+    } else {
+      // Create new activity
+      console.log('Creating activity:', data);
+      toast({
+        title: "Aktivita vytvořena",
+        description: "Aktivita byla úspěšně vytvořena",
+      });
+    }
+    setIsDialogOpen(false);
+  };
+
   return (
     <AppLayout>
       <div className="crm-container">
@@ -63,7 +103,7 @@ const ActivityPage = () => {
               <Button variant="outline" size="icon">
                 <Filter size={18} />
               </Button>
-              <Button>
+              <Button onClick={handleCreateActivity}>
                 <Plus size={18} className="mr-1" />
                 <span>Nová aktivita</span>
               </Button>
@@ -83,12 +123,23 @@ const ActivityPage = () => {
             {filteredActivities.map(activity => (
               <Card key={activity.id}>
                 <CardContent className="p-4">
-                  <InteractionItem interaction={activity} />
+                  <InteractionItem 
+                    interaction={activity}
+                    onEdit={() => handleEditActivity(activity)}
+                    onDelete={() => handleDeleteActivity(activity)}
+                  />
                 </CardContent>
               </Card>
             ))}
           </div>
         )}
+
+        <ActivityDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          activity={selectedActivity}
+          onSubmit={handleSubmitActivity}
+        />
       </div>
     </AppLayout>
   );

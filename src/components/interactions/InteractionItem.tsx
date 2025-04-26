@@ -1,15 +1,21 @@
-
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Users, BookOpen, ShoppingBag } from 'lucide-react';
+import { Calendar, Users, BookOpen, ShoppingBag, Edit, Trash2 } from 'lucide-react';
 import { Interaction, Meeting, Training, Purchase, Note } from '@/types/models';
 import { format } from 'date-fns';
+import { Button } from '@/components/ui/button';
 
 interface InteractionItemProps {
   interaction: Interaction;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-export const InteractionItem: React.FC<InteractionItemProps> = ({ interaction }) => {
+export const InteractionItem: React.FC<InteractionItemProps> = ({ 
+  interaction,
+  onEdit,
+  onDelete
+}) => {
   const renderTypeSpecificDetails = () => {
     switch (interaction.type) {
       case 'meeting':
@@ -116,13 +122,29 @@ export const InteractionItem: React.FC<InteractionItemProps> = ({ interaction })
     <div className="space-y-3">
       <div className="flex justify-between items-start gap-2">
         <h3 className="font-medium text-lg">{interaction.title}</h3>
-        <Badge 
-          variant="secondary"
-          style={{ backgroundColor: getTypeColor(interaction.type) }}
-          className="text-white"
-        >
-          {getTypeLabel(interaction.type)}
-        </Badge>
+        <div className="flex items-center gap-2">
+          {(onEdit || onDelete) && (
+            <div className="flex gap-1">
+              {onEdit && (
+                <Button variant="ghost" size="icon" onClick={onEdit}>
+                  <Edit size={16} />
+                </Button>
+              )}
+              {onDelete && (
+                <Button variant="ghost" size="icon" onClick={onDelete}>
+                  <Trash2 size={16} />
+                </Button>
+              )}
+            </div>
+          )}
+          <Badge 
+            variant="secondary"
+            style={{ backgroundColor: getTypeColor(interaction.type) }}
+            className="text-white"
+          >
+            {getTypeLabel(interaction.type)}
+          </Badge>
+        </div>
       </div>
       
       {renderTypeSpecificDetails()}

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
@@ -36,12 +35,10 @@ const OrganizationDetail = () => {
     );
   }
 
-  // Find all contacts associated with this organization
   const associatedContacts = contacts.filter(contact => 
     contact.organizations?.some(org => org.id === organization.id)
   );
   
-  // Find all interactions related to this organization or its contacts
   const organizationInteractions: Interaction[] = [
     ...meetings.map(m => m),
     ...trainings.map(t => t),
@@ -211,7 +208,7 @@ const OrganizationDetail = () => {
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Historie interakcí</CardTitle>
                 <Button size="sm">
-                  Nová interakce
+                  Nová aktivita
                 </Button>
               </CardHeader>
               <CardContent>
@@ -236,7 +233,6 @@ const OrganizationDetail = () => {
         </div>
       </div>
 
-      {/* Organization Edit Dialog */}
       <OrganizationDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
@@ -245,7 +241,6 @@ const OrganizationDetail = () => {
         onSubmit={handleUpdate}
       />
 
-      {/* Delete Confirmation Dialog */}
       {isConfirmDeleteOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
           <Card className="w-[400px]">

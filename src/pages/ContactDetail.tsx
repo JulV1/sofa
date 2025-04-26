@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
@@ -158,11 +157,9 @@ const ContactDetail = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Historie interakcí</CardTitle>
-                <div className="flex gap-2">
-                  <Button size="sm">
-                    Nová interakce
-                  </Button>
-                </div>
+                <Button size="sm">
+                  Nová aktivita
+                </Button>
               </CardHeader>
               <CardContent>
                 {contactInteractions.length > 0 ? (
