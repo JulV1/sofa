@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -53,13 +54,13 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         crm: {
-          primary: '#FF71CE', // Hot pink
-          secondary: '#B967FF', // Purple
-          accent: '#01CDFE', // Cyan
-          muted: '#FB9EFF', // Light pink
-          background: '#FAFAFF', // Very light purple
-          foreground: '#2D1832', // Dark purple
-          border: '#E5E1FF', // Light purple border
+          primary: '#7E69AB', // Tmavě fialová - profesionální
+          secondary: '#9B87F5', // Světlejší fialová pro akcenty
+          accent: '#0EA5E9', // Modrá pro call-to-actions
+          muted: '#F1F5F9', // Světle šedá pro pozadí
+          background: '#FFFFFF', // Čistě bílá
+          foreground: '#1F2937', // Tmavě šedá pro text
+          border: '#E2E8F0', // Světle šedá pro ohraničení
         }
       },
       borderRadius: {
