@@ -13,54 +13,58 @@ const Dashboard = () => {
   return (
     <AppLayout>
       <div className="crm-container">
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-crm-primary via-crm-secondary to-crm-accent bg-clip-text text-transparent">
+          Dashboard
+        </h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Celkem kontaktů</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card className="gradient-card border-crm-border">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-base font-medium">Celkem kontaktů</CardTitle>
+              <Users className="h-5 w-5 text-crm-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{contacts.length}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-3xl font-bold text-crm-secondary">{contacts.length}</div>
+              <p className="text-sm text-crm-primary/80">
                 {organizations.length} organizací
               </p>
             </CardContent>
           </Card>
           
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Nadcházející schůzky</CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+          <Card className="gradient-card border-crm-border">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-base font-medium">Nadcházející schůzky</CardTitle>
+              <Calendar className="h-5 w-5 text-crm-accent" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{upcomingMeetings.length}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-3xl font-bold text-crm-secondary">{upcomingMeetings.length}</div>
+              <p className="text-sm text-crm-primary/80">
                 Tento týden
               </p>
             </CardContent>
           </Card>
           
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Poznámky</CardTitle>
-              <MessageSquare className="h-4 w-4 text-muted-foreground" />
+          <Card className="gradient-card border-crm-border">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-base font-medium">Poznámky</CardTitle>
+              <MessageSquare className="h-5 w-5 text-crm-secondary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{notes.length}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-3xl font-bold text-crm-secondary">{notes.length}</div>
+              <p className="text-sm text-crm-primary/80">
                 Celkem vytvořeno
               </p>
             </CardContent>
           </Card>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <Card className="gradient-card border-crm-border">
             <CardHeader>
-              <CardTitle>Nadcházející schůzky</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-xl bg-gradient-to-r from-crm-primary to-crm-secondary bg-clip-text text-transparent">
+                Nadcházející schůzky
+              </CardTitle>
+              <CardDescription className="text-crm-primary/70">
                 Seznam vašich nadcházejících schůzek
               </CardDescription>
             </CardHeader>
@@ -68,11 +72,11 @@ const Dashboard = () => {
               {upcomingMeetings.length > 0 ? (
                 <div className="space-y-4">
                   {upcomingMeetings.map(meeting => (
-                    <div key={meeting.id} className="border-b pb-3 last:border-0">
+                    <div key={meeting.id} className="border-b border-crm-border pb-4 last:border-0">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="font-medium">{meeting.title}</h3>
-                          <p className="text-sm text-gray-500">
+                          <h3 className="font-medium text-crm-foreground">{meeting.title}</h3>
+                          <p className="text-sm text-crm-primary/70">
                             {new Date(meeting.date).toLocaleString('cs-CZ', { 
                               day: '2-digit', 
                               month: '2-digit', 
@@ -82,28 +86,30 @@ const Dashboard = () => {
                             })}
                           </p>
                         </div>
-                        <div className="text-sm">
+                        <div className="text-sm text-crm-secondary font-medium">
                           {meeting.duration} min
                         </div>
                       </div>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-600">{meeting.description}</p>
+                        <p className="text-sm text-crm-foreground/70">{meeting.description}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-4 text-muted-foreground">
+                <div className="text-center py-8 text-crm-primary/60">
                   Nemáte žádné naplánované schůzky
                 </div>
               )}
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="gradient-card border-crm-border">
             <CardHeader>
-              <CardTitle>Poslední poznámky</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-xl bg-gradient-to-r from-crm-accent to-crm-secondary bg-clip-text text-transparent">
+                Poslední poznámky
+              </CardTitle>
+              <CardDescription className="text-crm-primary/70">
                 Naposledy vytvořené poznámky
               </CardDescription>
             </CardHeader>
@@ -111,21 +117,21 @@ const Dashboard = () => {
               {notes.length > 0 ? (
                 <div className="space-y-4">
                   {notes.map(note => (
-                    <div key={note.id} className="border-b pb-3 last:border-0">
+                    <div key={note.id} className="border-b border-crm-border pb-4 last:border-0">
                       <div>
-                        <h3 className="font-medium">{note.title}</h3>
-                        <p className="text-sm text-gray-500">
+                        <h3 className="font-medium text-crm-foreground">{note.title}</h3>
+                        <p className="text-sm text-crm-primary/70">
                           {new Date(note.createdAt).toLocaleDateString('cs-CZ')}
                         </p>
                       </div>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-600 line-clamp-2">{note.content}</p>
+                        <p className="text-sm text-crm-foreground/70 line-clamp-2">{note.content}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-4 text-muted-foreground">
+                <div className="text-center py-8 text-crm-primary/60">
                   Žádné poznámky zatím nebyly vytvořeny
                 </div>
               )}

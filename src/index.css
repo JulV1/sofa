@@ -1,39 +1,38 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 240 33% 99%;
+    --foreground: 300 30% 17%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 300 30% 17%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 300 30% 17%;
 
-    --primary: 250 47% 50%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 324 100% 72%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 260 40% 96%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 280 100% 70%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 300 100% 81%;
+    --muted-foreground: 300 30% 40%;
 
-    --accent: 260 96% 90%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 187 99% 50%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 250 47% 50%;
+    --border: 270 100% 96%;
+    --input: 270 100% 96%;
+    --ring: 324 100% 72%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -101,6 +100,10 @@
   }
 
   .crm-card {
-    @apply bg-white border border-crm-border rounded-lg shadow-sm p-4;
+    @apply bg-white border border-crm-border rounded-2xl shadow-md p-6 hover:shadow-lg transition-shadow backdrop-blur-sm;
+  }
+
+  .gradient-card {
+    @apply bg-gradient-to-br from-white to-crm-border/30;
   }
 }
