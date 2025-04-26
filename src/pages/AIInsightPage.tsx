@@ -11,7 +11,7 @@ import { Building, Users, Calendar, MessageSquare, ArrowLeft } from 'lucide-reac
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { contacts, organizations, meetings, notes, trainings } from '@/data/mockData';
-import { Contact, Organization, Interaction } from '@/types/models';
+import { Contact, Organization, Interaction, InteractionType, Meeting, Training, Note } from '@/types/models';
 
 const AIInsightPage = () => {
   const [searchParams] = useSearchParams();
@@ -99,11 +99,11 @@ const AIInsightPage = () => {
       }
     ];
 
-    // Simulované aktivity v plzeňském regionu
-    const plzenActivities = [
+    // Simulované aktivity v plzeňském regionu - opraveno pro správné typování
+    const plzenActivities: Interaction[] = [
       {
         id: 'plzen-activity1',
-        type: 'meeting',
+        type: 'meeting' as InteractionType,
         title: 'Školení o wellbeingu - ZŠ Plzeň-město',
         description: 'Celodenní školení pro pedagogický sbor ZŠ Plzeň-město zaměřené na duševní pohodu žáků.',
         date: new Date('2024-04-05T09:00:00'),
@@ -116,10 +116,10 @@ const AIInsightPage = () => {
         relatedOrganizations: [plzenOrgs[0]],
         createdAt: new Date('2024-03-01'),
         updatedAt: new Date('2024-03-01'),
-      },
+      } as Meeting,
       {
         id: 'plzen-activity2',
-        type: 'training',
+        type: 'training' as InteractionType,
         title: 'Workshop socio-emočního učení - MŠ Sluníčko',
         description: 'Praktický workshop pro učitelky mateřské školy o implementaci socio-emočního učení.',
         date: new Date('2024-04-12T10:00:00'),
@@ -133,10 +133,10 @@ const AIInsightPage = () => {
         materials: 'Interaktivní materiály a příručky',
         createdAt: new Date('2024-03-10'),
         updatedAt: new Date('2024-03-10'),
-      },
+      } as Training,
       {
         id: 'plzen-activity3',
-        type: 'note',
+        type: 'note' as InteractionType,
         title: 'Zájem o PBIS v ZŠ Plzeň-město',
         description: 'Záznam z telefonátu s ředitelem ZŠ Plzeň-město',
         content: 'Pan ředitel Novotný projevil zájem o implementaci PBIS (pozitivní chování ve školách) v jejich instituci. Požaduje detailnější informace a možnost návštěvy školy, kde je již PBIS zaveden.',
@@ -145,7 +145,7 @@ const AIInsightPage = () => {
         relatedOrganizations: [plzenOrgs[0]],
         createdAt: new Date('2024-04-18'),
         updatedAt: new Date('2024-04-18'),
-      }
+      } as Note
     ];
 
     setRelevantOrganizations(plzenOrgs);
@@ -268,13 +268,15 @@ const AIInsightPage = () => {
                               {activity.type === 'meeting' && 'Schůzka'}
                               {activity.type === 'training' && 'Školení'}
                               {activity.type === 'note' && 'Poznámka'}
+                              {activity.type === 'phone_call' && 'Telefonát'}
+                              {activity.type === 'purchase' && 'Nákup'}
                             </Badge>
                           </div>
                           <p className="text-sm text-gray-600 mt-1">{activity.description}</p>
-                          {activity.type !== 'note' && (
+                          {(activity.type === 'meeting' || activity.type === 'training' || activity.type === 'purchase' || activity.type === 'phone_call') && (
                             <div className="flex items-center mt-2 text-sm text-gray-500">
                               <Calendar size={14} className="mr-1" />
-                              {new Date(activity.date).toLocaleDateString('cs-CZ')}
+                              {new Date((activity as any).date).toLocaleDateString('cs-CZ')}
                             </div>
                           )}
                           <div className="flex flex-wrap gap-1 mt-2">
