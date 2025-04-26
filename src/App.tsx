@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import ContactsPage from "./pages/ContactsPage";
 import ContactDetail from "./pages/ContactDetail";
 import OrganizationsPage from "./pages/OrganizationsPage";
+import OrganizationDetail from "./pages/OrganizationDetail";
 import ActivityPage from "./pages/ActivityPage";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/contacts" element={<ContactsPage />} />
           <Route path="/contacts/:id" element={<ContactDetail />} />
           <Route path="/organizations" element={<OrganizationsPage />} />
+          <Route path="/organizations/:id" element={<OrganizationDetail />} />
           <Route path="/activities" element={<ActivityPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />

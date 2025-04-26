@@ -5,13 +5,21 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Building, Search, Plus, Filter, ArrowRight, Mail, Phone, Globe } from 'lucide-react';
+import { Building, Search, Plus, Filter, ArrowRight, Mail, Phone, Globe, Trash2, Edit } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { organizations } from '@/data/mockData';
+import { organizations, tags } from '@/data/mockData';
+import { OrganizationDialog } from '@/components/organizations/OrganizationDialog';
+import { useToast } from "@/hooks/use-toast";
+import { Organization } from '@/types/models';
 
 const OrganizationsPage = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [filteredOrganizations, setFilteredOrganizations] = React.useState(organizations);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [selectedOrganization, setSelectedOrganization] = React.useState<Organization | undefined>();
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = React.useState(false);
+  const [organizationToDelete, setOrganizationToDelete] = React.useState<Organization | null>(null);
+  const { toast } = useToast();
 
   React.useEffect(() => {
     if (searchTerm.trim() === '') {
@@ -27,6 +35,51 @@ const OrganizationsPage = () => {
     
     setFilteredOrganizations(filtered);
   }, [searchTerm]);
+
+  const handleAddOrganization = async (data: any) => {
+    console.log('Adding organization:', data);
+    toast({
+      title: "Funkcionalita ve vývoji",
+      description: "Přidání organizace bude implementováno s backendovým řešením",
+    });
+    setIsDialogOpen(false);
+  };
+
+  const handleEditOrganization = async (data: any) => {
+    console.log('Editing organization:', data);
+    toast({
+      title: "Funkcionalita ve vývoji",
+      description: "Úprava organizace bude implementována s backendovým řešením",
+    });
+    setIsDialogOpen(false);
+  };
+
+  const handleDeleteOrganization = (organization: Organization) => {
+    setOrganizationToDelete(organization);
+    setIsConfirmDeleteOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (organizationToDelete) {
+      console.log('Deleting organization:', organizationToDelete);
+      toast({
+        title: "Funkcionalita ve vývoji",
+        description: "Smazání organizace bude implementováno s backendovým řešením",
+      });
+    }
+    setIsConfirmDeleteOpen(false);
+    setOrganizationToDelete(null);
+  };
+
+  const openAddDialog = () => {
+    setSelectedOrganization(undefined);
+    setIsDialogOpen(true);
+  };
+
+  const openEditDialog = (organization: Organization) => {
+    setSelectedOrganization(organization);
+    setIsDialogOpen(true);
+  };
 
   return (
     <AppLayout>
@@ -50,7 +103,7 @@ const OrganizationsPage = () => {
               <Button variant="outline" size="icon">
                 <Filter size={18} />
               </Button>
-              <Button>
+              <Button onClick={openAddDialog}>
                 <Plus size={18} className="mr-1" />
                 <span>Nová organizace</span>
               </Button>
@@ -68,7 +121,7 @@ const OrganizationsPage = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {filteredOrganizations.map(org => (
-              <Card key={org.id} className="overflow-hidden hover:shadow-md transition-shadow">
+              <Card key={org.id} className="overflow-hidden hover:shadow-md transition-shadow relative group">
                 <CardContent className="p-0">
                   <div className="p-4">
                     <div className="flex items-center space-x-4">
@@ -128,12 +181,65 @@ const OrganizationsPage = () => {
                       <ArrowRight size={14} className="ml-1" />
                     </Link>
                   </div>
+                  
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        openEditDialog(org);
+                      }}
+                    >
+                      <Edit size={16} />
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDeleteOrganization(org);
+                      }}
+                    >
+                      <Trash2 size={16} />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
           </div>
         )}
       </div>
+
+      {/* Organization Add/Edit Dialog */}
+      <OrganizationDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        organization={selectedOrganization}
+        tags={tags}
+        onSubmit={selectedOrganization ? handleEditOrganization : handleAddOrganization}
+      />
+
+      {/* Delete Confirmation Dialog */}
+      {isConfirmDeleteOpen && organizationToDelete && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <Card className="w-[400px]">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold mb-2">Potvrdit smazání</h3>
+              <p>Opravdu chcete smazat organizaci "{organizationToDelete.name}"?</p>
+              <p className="text-sm text-gray-500 mt-2">Tato akce je nevratná.</p>
+              <div className="flex justify-end gap-2 mt-6">
+                <Button variant="outline" onClick={() => setIsConfirmDeleteOpen(false)}>
+                  Zrušit
+                </Button>
+                <Button variant="destructive" onClick={confirmDelete}>
+                  Smazat
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </AppLayout>
   );
 };
