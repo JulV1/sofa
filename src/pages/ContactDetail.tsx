@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ArrowLeft, Mail, Phone, Building, Edit } from 'lucide-react';
-import { contacts, notes, meetings } from '@/data/mockData';
+import { contacts, notes, meetings, trainings, purchases } from '@/data/mockData';
 import { InteractionItem } from '@/components/interactions/InteractionItem';
 import { Interaction } from '@/types/models';
 
@@ -42,8 +42,10 @@ const ContactDetail = () => {
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`;
 
   const contactInteractions: Interaction[] = [
-    ...meetings.map(m => ({ ...m, type: 'meeting' as const })),
-    ...notes.map(n => ({ ...n, type: 'note' as const }))
+    ...meetings.map(m => m),
+    ...trainings.map(t => t),
+    ...purchases.map(p => p),
+    ...notes.map(n => n)
   ].filter(interaction => 
     interaction.relatedContacts.some(c => c.id === contact.id)
   ).sort((a, b) => 

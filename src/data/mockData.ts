@@ -139,10 +139,11 @@ export const contacts: Contact[] = [
 export const meetings: Meeting[] = [
   {
     id: '1',
+    type: 'meeting',
     title: 'Úvodní schůzka k projektu CRM',
     description: 'Diskuze o požadavcích na nový CRM systém',
     date: new Date('2024-04-20T10:00:00'),
-    duration: 60, // 60 minut
+    duration: 60,
     location: 'Kancelář Technosoft',
     tags: [tags[0], tags[4]],
     participants: [contacts[0], contacts[3]],
@@ -154,10 +155,11 @@ export const meetings: Meeting[] = [
   },
   {
     id: '2',
+    type: 'meeting',
     title: 'Prezentace marketingové strategie',
     description: 'Představení nové marketingové strategie pro Q2 2024',
     date: new Date('2024-04-25T14:00:00'),
-    duration: 90, // 90 minut
+    duration: 90,
     location: 'Online - Microsoft Teams',
     tags: [tags[1]],
     participants: [contacts[1]],
@@ -169,7 +171,7 @@ export const meetings: Meeting[] = [
   },
 ];
 
-export const trainings = [
+export const trainings: Training[] = [
   {
     id: '1',
     type: 'training',
@@ -189,7 +191,7 @@ export const trainings = [
   },
 ];
 
-export const purchases = [
+export const purchases: Purchase[] = [
   {
     id: '1',
     type: 'purchase',
@@ -213,6 +215,7 @@ export const purchases = [
 export const notes: Note[] = [
   {
     id: '1',
+    type: 'note',
     title: 'Poznámka z telefonátu s Janem Novákem',
     description: 'Shrnutí telefonického rozhovoru',
     content: 'Jan projevil zájem o rozšíření stávajícího softwarového řešení. Požaduje cenovou nabídku do konce týdne. Zmínil také potřebu integrace s jejich současným účetním systémem.',
@@ -224,6 +227,7 @@ export const notes: Note[] = [
   },
   {
     id: '2',
+    type: 'note',
     title: 'Příprava smlouvy pro Logistika Plus',
     description: 'Podklady pro vytvoření smlouvy',
     content: 'Připravit návrh smlouvy pro Logistika Plus a.s. zahrnující následující služby: 1) Implementace sledovacího systému, 2) Pravidelná údržba, 3) Školení zaměstnanců. Kontaktní osoba: Petr Černý.',
