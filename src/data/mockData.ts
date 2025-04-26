@@ -1,4 +1,4 @@
-import { Contact, Organization, Meeting, Note, Tag } from '../types/models';
+import { Contact, Organization, Meeting, Note, Tag, Training, Purchase } from '../types/models';
 
 export const tags: Tag[] = [
   {
