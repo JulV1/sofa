@@ -1,18 +1,23 @@
-
 import React, { useState } from 'react';
-import { Contact } from '@/types/models';
+import { Contact, Organization } from '@/types/models';
 import { ContactCard } from './ContactCard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Plus, Filter } from 'lucide-react';
+import { Search, Plus, Filter, Trash2, Edit } from 'lucide-react';
+import { ContactDialog } from './ContactDialog';
+import { useToast } from "@/hooks/use-toast";
 
 interface ContactListProps {
   contacts: Contact[];
+  organizations: Organization[];
 }
 
-export const ContactList: React.FC<ContactListProps> = ({ contacts: initialContacts }) => {
+export const ContactList: React.FC<ContactListProps> = ({ contacts: initialContacts, organizations }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>(initialContacts);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedContact, setSelectedContact] = useState<Contact | undefined>();
+  const { toast } = useToast();
 
   React.useEffect(() => {
     if (searchTerm.trim() === '') {
@@ -31,6 +36,40 @@ export const ContactList: React.FC<ContactListProps> = ({ contacts: initialConta
     
     setFilteredContacts(filtered);
   }, [searchTerm, initialContacts]);
+
+  const handleAddContact = async (data: any) => {
+    console.log('Adding contact:', data);
+    toast({
+      title: "Funkcionalita ve vývoji",
+      description: "Přidání kontaktu bude implementováno s backendovým řešením",
+    });
+  };
+
+  const handleEditContact = async (data: any) => {
+    console.log('Editing contact:', data);
+    toast({
+      title: "Funkcionalita ve vývoji",
+      description: "Úprava kontaktu bude implementována s backendovým řešením",
+    });
+  };
+
+  const handleDeleteContact = async (contact: Contact) => {
+    console.log('Deleting contact:', contact);
+    toast({
+      title: "Funkcionalita ve vývoji",
+      description: "Smazání kontaktu bude implementováno s backendovým řešením",
+    });
+  };
+
+  const openAddDialog = () => {
+    setSelectedContact(undefined);
+    setIsDialogOpen(true);
+  };
+
+  const openEditDialog = (contact: Contact) => {
+    setSelectedContact(contact);
+    setIsDialogOpen(true);
+  };
 
   return (
     <div>
@@ -53,7 +92,7 @@ export const ContactList: React.FC<ContactListProps> = ({ contacts: initialConta
             <Button variant="outline" size="icon">
               <Filter size={18} />
             </Button>
-            <Button>
+            <Button onClick={openAddDialog}>
               <Plus size={18} className="mr-1" />
               <span>Nový kontakt</span>
             </Button>
@@ -71,10 +110,36 @@ export const ContactList: React.FC<ContactListProps> = ({ contacts: initialConta
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredContacts.map(contact => (
-            <ContactCard key={contact.id} contact={contact} />
+            <div key={contact.id} className="relative group">
+              <ContactCard contact={contact} />
+              <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  onClick={() => openEditDialog(contact)}
+                >
+                  <Edit size={16} />
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  onClick={() => handleDeleteContact(contact)}
+                >
+                  <Trash2 size={16} />
+                </Button>
+              </div>
+            </div>
           ))}
         </div>
       )}
+
+      <ContactDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        contact={selectedContact}
+        organizations={organizations}
+        onSubmit={selectedContact ? handleEditContact : handleAddContact}
+      />
     </div>
   );
 };
