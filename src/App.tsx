@@ -12,6 +12,7 @@ import OrganizationDetail from "./pages/OrganizationDetail";
 import ActivityPage from "./pages/ActivityPage";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
+import AIInsightPage from "./pages/AIInsightPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/organizations" element={<OrganizationsPage />} />
           <Route path="/organizations/:id" element={<OrganizationDetail />} />
           <Route path="/activities" element={<ActivityPage />} />
+          <Route path="/ai-insight" element={<AIInsightPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<NotFound />} />
