@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Users, Calendar, MessageSquare, User, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, Building, FileText, User, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface SidebarProps {
@@ -10,10 +10,10 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const navItems = [
+    { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> },
     { name: 'Kontakty', path: '/contacts', icon: <Users size={20} /> },
-    { name: 'Organizace', path: '/organizations', icon: <Users size={20} /> },
-    { name: 'Schůzky', path: '/meetings', icon: <Calendar size={20} /> },
-    { name: 'Poznámky', path: '/notes', icon: <MessageSquare size={20} /> },
+    { name: 'Organizace', path: '/organizations', icon: <Building size={20} /> },
+    { name: 'Aktivity', path: '/activities', icon: <FileText size={20} /> },
     { name: 'Profil', path: '/profile', icon: <User size={20} /> },
     { name: 'Nastavení', path: '/settings', icon: <Settings size={20} /> },
   ];
