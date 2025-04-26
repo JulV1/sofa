@@ -8,6 +8,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from '@/components/ui/command';
 import {
   Popover,
@@ -114,29 +115,31 @@ export function MultiSelect({
         <Command>
           <CommandInput placeholder={`Vyhledat ${placeholder.toLowerCase()}`} />
           <CommandEmpty>Žádné položky nenalezeny</CommandEmpty>
-          <CommandGroup className="max-h-60 overflow-auto">
-            {options.map((option) => {
-              const isSelected = selectedItems.some(
-                (item) => item.value === option.value
-              );
+          <CommandList>
+            <CommandGroup className="max-h-60 overflow-auto">
+              {options.map((option) => {
+                const isSelected = selectedItems.some(
+                  (item) => item.value === option.value
+                );
 
-              return (
-                <CommandItem
-                  key={option.value}
-                  value={option.label}
-                  onSelect={() => handleSelect(option)}
-                >
-                  <div className={cn(
-                    "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
-                    isSelected ? "bg-primary text-primary-foreground" : "opacity-50"
-                  )}>
-                    {isSelected ? <span className="h-2 w-2 rounded-sm bg-white" /> : null}
-                  </div>
-                  {option.label}
-                </CommandItem>
-              );
-            })}
-          </CommandGroup>
+                return (
+                  <CommandItem
+                    key={option.value}
+                    value={option.label}
+                    onSelect={() => handleSelect(option)}
+                  >
+                    <div className={cn(
+                      "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                      isSelected ? "bg-primary text-primary-foreground" : "opacity-50"
+                    )}>
+                      {isSelected ? <span className="h-2 w-2 rounded-sm bg-white" /> : null}
+                    </div>
+                    {option.label}
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
