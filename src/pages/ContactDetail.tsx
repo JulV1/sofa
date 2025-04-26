@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
@@ -7,8 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { ArrowLeft, Mail, Phone, Building, Calendar, MessageSquare, Edit } from 'lucide-react';
+import { ArrowLeft, Mail, Phone, Building, Edit } from 'lucide-react';
 import { contacts, notes, meetings } from '@/data/mockData';
+import { InteractionItem } from '@/components/interactions/InteractionItem';
+import { Interaction } from '@/types/models';
 
 const ContactDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,6 +40,15 @@ const ContactDetail = () => {
 
   const { firstName, lastName, email, phone, position, organization, tags, notes: contactDescription } = contact;
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`;
+
+  const contactInteractions: Interaction[] = [
+    ...meetings.map(m => ({ ...m, type: 'meeting' as const })),
+    ...notes.map(n => ({ ...n, type: 'note' as const }))
+  ].filter(interaction => 
+    interaction.relatedContacts.some(c => c.id === contact.id)
+  ).sort((a, b) => 
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 
   return (
     <AppLayout>
@@ -125,119 +135,33 @@ const ContactDetail = () => {
           </div>
           
           <div className="lg:col-span-2">
-            <Tabs defaultValue="notes" className="w-full">
-              <TabsList className="mb-4">
-                <TabsTrigger value="notes" className="flex items-center">
-                  <MessageSquare size={16} className="mr-1" />
-                  Poznámky
-                </TabsTrigger>
-                <TabsTrigger value="meetings" className="flex items-center">
-                  <Calendar size={16} className="mr-1" />
-                  Schůzky
-                </TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="notes">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle>Poznámky</CardTitle>
-                    <Button size="sm">
-                      <MessageSquare size={16} className="mr-1" />
-                      Nová poznámka
-                    </Button>
-                  </CardHeader>
-                  <CardContent>
-                    {contactNotes.length > 0 ? (
-                      <div className="space-y-4">
-                        {contactNotes.map(note => (
-                          <div key={note.id} className="border-b pb-4 last:border-0">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-medium">{note.title}</h3>
-                              <span className="text-xs text-gray-500">
-                                {new Date(note.createdAt).toLocaleDateString('cs-CZ')}
-                              </span>
-                            </div>
-                            <p className="text-sm text-gray-600 mt-1">{note.content}</p>
-                            {note.tags && note.tags.length > 0 && (
-                              <div className="flex flex-wrap gap-1 mt-2">
-                                {note.tags.map((tag) => (
-                                  <Badge key={tag.id} style={{ backgroundColor: tag.color }} className="text-white text-xs">
-                                    {tag.name}
-                                  </Badge>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-6 text-gray-500">
-                        <MessageSquare className="mx-auto h-12 w-12 text-gray-300" />
-                        <h3 className="mt-2 text-lg font-medium">Žádné poznámky</h3>
-                        <p className="mt-1 text-sm">K tomuto kontaktu zatím nejsou žádné poznámky.</p>
-                        <Button className="mt-4" size="sm">
-                          <MessageSquare size={16} className="mr-1" />
-                          Přidat poznámku
-                        </Button>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
-              
-              <TabsContent value="meetings">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle>Schůzky</CardTitle>
-                    <Button size="sm">
-                      <Calendar size={16} className="mr-1" />
-                      Nová schůzka
-                    </Button>
-                  </CardHeader>
-                  <CardContent>
-                    {contactMeetings.length > 0 ? (
-                      <div className="space-y-4">
-                        {contactMeetings.map(meeting => (
-                          <div key={meeting.id} className="border-b pb-4 last:border-0">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-medium">{meeting.title}</h3>
-                              <div className="text-xs">
-                                <span className={`inline-block rounded-full px-2 py-1 ${meeting.isCompleted ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
-                                  {meeting.isCompleted ? 'Dokončeno' : 'Plánováno'}
-                                </span>
-                              </div>
-                            </div>
-                            <p className="text-sm text-gray-500 mt-1">
-                              {new Date(meeting.date).toLocaleString('cs-CZ', { 
-                                day: '2-digit', 
-                                month: '2-digit', 
-                                year: 'numeric',
-                                hour: '2-digit', 
-                                minute: '2-digit'
-                              })} ({meeting.duration} min)
-                            </p>
-                            <p className="text-sm text-gray-600 mt-1">{meeting.description}</p>
-                            {meeting.location && (
-                              <p className="text-xs text-gray-500 mt-2">Místo: {meeting.location}</p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-6 text-gray-500">
-                        <Calendar className="mx-auto h-12 w-12 text-gray-300" />
-                        <h3 className="mt-2 text-lg font-medium">Žádné schůzky</h3>
-                        <p className="mt-1 text-sm">K tomuto kontaktu zatím nejsou žádné schůzky.</p>
-                        <Button className="mt-4" size="sm">
-                          <Calendar size={16} className="mr-1" />
-                          Naplánovat schůzku
-                        </Button>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            </Tabs>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle>Historie interakcí</CardTitle>
+                <div className="flex gap-2">
+                  <Button size="sm">
+                    Nová interakce
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {contactInteractions.length > 0 ? (
+                  <div className="space-y-4">
+                    {contactInteractions.map(interaction => (
+                      <InteractionItem 
+                        key={interaction.id} 
+                        interaction={interaction}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-6 text-gray-500">
+                    <h3 className="mt-2 text-lg font-medium">Žádné interakce</h3>
+                    <p className="mt-1 text-sm">S tímto kontaktem zatím nejsou zaznamenány žádné interakce.</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-
 // Base entity interface with common properties
 export interface BaseEntity {
   id: string;
@@ -36,22 +35,49 @@ export interface Contact extends BaseEntity {
   notes?: string;
 }
 
+// InteractionType enum for different kinds of interactions
+export type InteractionType = 'meeting' | 'training' | 'purchase' | 'note' | 'phone_call';
+
 // Base interaction model (abstract)
 export interface Interaction extends BaseEntity {
+  type: InteractionType;
   title: string;
   description: string;
   tags: Tag[];
   relatedContacts: Contact[];
-  relatedOrganizations: Organization[];
+  relatedOrganizations?: Organization[];
 }
 
 // Meeting interaction
 export interface Meeting extends Interaction {
   date: Date;
-  duration: number; // in minutes
+  duration: number;
   location?: string;
   participants: Contact[];
   isCompleted: boolean;
+}
+
+// Training interaction
+export interface Training extends Interaction {
+  date: Date;
+  duration: number;
+  location?: string;
+  trainer?: Contact;
+  participants: Contact[];
+  materials?: string;
+}
+
+// Purchase interaction
+export interface Purchase extends Interaction {
+  date: Date;
+  amount: number;
+  currency: string;
+  items: Array<{
+    name: string;
+    quantity: number;
+    price: number;
+  }>;
+  purchasedBy: Contact;
 }
 
 // Note interaction
@@ -62,7 +88,7 @@ export interface Note extends Interaction {
 // Phone call interaction
 export interface PhoneCall extends Interaction {
   date: Date;
-  duration: number; // in minutes
+  duration: number;
   callType: 'incoming' | 'outgoing';
   contactPerson: Contact;
 }

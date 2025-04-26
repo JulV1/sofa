@@ -1,4 +1,3 @@
-
 import { Contact, Organization, Meeting, Note, Tag } from '../types/models';
 
 export const tags: Tag[] = [
@@ -167,6 +166,47 @@ export const meetings: Meeting[] = [
     relatedOrganizations: [organizations[1]],
     createdAt: new Date('2024-01-20'),
     updatedAt: new Date('2024-01-20'),
+  },
+];
+
+export const trainings = [
+  {
+    id: '1',
+    type: 'training',
+    title: 'Školení nového CRM systému',
+    description: 'Úvodní školení pro používání nového CRM systému.',
+    date: new Date('2024-04-15T09:00:00'),
+    duration: 180,
+    location: 'Školící místnost',
+    trainer: contacts[0],
+    participants: [contacts[1], contacts[2]],
+    tags: [tags[0]],
+    relatedContacts: [contacts[0], contacts[1], contacts[2]],
+    relatedOrganizations: [organizations[0]],
+    materials: 'Prezentace a manuál',
+    createdAt: new Date('2024-01-10'),
+    updatedAt: new Date('2024-01-10'),
+  },
+];
+
+export const purchases = [
+  {
+    id: '1',
+    type: 'purchase',
+    title: 'Nákup licencí software',
+    description: 'Zakoupení ročních licencí pro tým',
+    date: new Date('2024-04-01'),
+    amount: 25000,
+    currency: 'CZK',
+    items: [
+      { name: 'Software licence - standard', quantity: 5, price: 5000 }
+    ],
+    purchasedBy: contacts[1],
+    tags: [tags[0]],
+    relatedContacts: [contacts[1]],
+    relatedOrganizations: [organizations[0]],
+    createdAt: new Date('2024-01-05'),
+    updatedAt: new Date('2024-01-05'),
   },
 ];
 
