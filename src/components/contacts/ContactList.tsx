@@ -10,9 +10,10 @@ import { useToast } from "@/hooks/use-toast";
 interface ContactListProps {
   contacts: Contact[];
   organizations: Organization[];
+  tags: Tag[];
 }
 
-export const ContactList: React.FC<ContactListProps> = ({ contacts: initialContacts, organizations }) => {
+export const ContactList: React.FC<ContactListProps> = ({ contacts: initialContacts, organizations, tags }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>(initialContacts);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -138,6 +139,7 @@ export const ContactList: React.FC<ContactListProps> = ({ contacts: initialConta
         onClose={() => setIsDialogOpen(false)}
         contact={selectedContact}
         organizations={organizations}
+        tags={tags}
         onSubmit={selectedContact ? handleEditContact : handleAddContact}
       />
     </div>

@@ -29,8 +29,8 @@ export interface Contact extends BaseEntity {
   email?: string;
   phone?: string;
   position?: string;
-  organization?: Organization;
-  organizationId?: string;
+  organizations?: Organization[];
+  address?: string;
   tags: Tag[];
   notes?: string;
 }

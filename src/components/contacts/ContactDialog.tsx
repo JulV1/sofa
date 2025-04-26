@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Contact, Organization } from "@/types/models";
+import { Contact, Organization, Tag } from "@/types/models";
 import { ContactForm } from "./ContactForm";
 import { useToast } from "@/hooks/use-toast";
 
@@ -14,6 +14,7 @@ interface ContactDialogProps {
   onClose: () => void;
   contact?: Contact;
   organizations: Organization[];
+  tags: Tag[];
   onSubmit: (data: any) => void;
   isSubmitting?: boolean;
 }
@@ -23,6 +24,7 @@ export function ContactDialog({
   onClose,
   contact,
   organizations,
+  tags,
   onSubmit,
   isSubmitting
 }: ContactDialogProps) {
@@ -57,6 +59,7 @@ export function ContactDialog({
           onSubmit={handleSubmit}
           initialData={contact}
           organizations={organizations}
+          tags={tags}
           isSubmitting={isSubmitting}
         />
       </DialogContent>
