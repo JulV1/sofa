@@ -8,8 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import ContactsPage from "./pages/ContactsPage";
 import ContactDetail from "./pages/ContactDetail";
 import OrganizationsPage from "./pages/OrganizationsPage";
-import MeetingsPage from "./pages/MeetingsPage";
-import NotesPage from "./pages/NotesPage";
+import ActivityPage from "./pages/ActivityPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,8 +25,7 @@ const App = () => (
           <Route path="/contacts" element={<ContactsPage />} />
           <Route path="/contacts/:id" element={<ContactDetail />} />
           <Route path="/organizations" element={<OrganizationsPage />} />
-          <Route path="/meetings" element={<MeetingsPage />} />
-          <Route path="/notes" element={<NotesPage />} />
+          <Route path="/activities" element={<ActivityPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
