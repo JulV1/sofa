@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
-interface MultiSelectOption {
+export interface MultiSelectOption {
   value: string;
   label: string;
 }
@@ -34,8 +34,14 @@ export function MultiSelect({
   placeholder = 'Vyberte...',
   onChange,
 }: MultiSelectProps) {
-  const [selectedItems, setSelectedItems] = useState<MultiSelectOption[]>(defaultValue);
+  const [selectedItems, setSelectedItems] = useState<MultiSelectOption[]>([]);
   const [open, setOpen] = useState(false);
+
+  // Zajistíme, že defaultValue je vždy pole a inicializujeme vybrané položky
+  useEffect(() => {
+    const initialItems = Array.isArray(defaultValue) ? defaultValue : [];
+    setSelectedItems(initialItems);
+  }, [defaultValue]);
 
   const handleSelect = (item: MultiSelectOption) => {
     const isSelected = selectedItems.findIndex((selectedItem) => selectedItem.value === item.value) !== -1;
@@ -105,7 +111,7 @@ export function MultiSelect({
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start">
-        <Command className="max-h-64">
+        <Command>
           <CommandInput placeholder={`Vyhledat ${placeholder.toLowerCase()}`} />
           <CommandEmpty>Žádné položky nenalezeny</CommandEmpty>
           <CommandGroup className="max-h-60 overflow-auto">

@@ -1,12 +1,12 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Organization, Tag } from '@/types/models';
-import { MultiSelect } from '@/components/ui/multi-select';
+import { MultiSelect, MultiSelectOption } from '@/components/ui/multi-select';
 
 interface OrganizationFormProps {
   organization?: Organization;
@@ -21,6 +21,21 @@ export const OrganizationForm: React.FC<OrganizationFormProps> = ({
   onSubmit,
   onCancel,
 }) => {
+  // Format tags for multi-select component
+  const tagOptions = useMemo(() => {
+    return tags.map(tag => ({
+      value: tag.id,
+      label: tag.name,
+    }));
+  }, [tags]);
+
+  const selectedTagOptions = useMemo(() => {
+    return organization?.tags?.map(tag => ({
+      value: tag.id,
+      label: tag.name,
+    })) || [];
+  }, [organization?.tags]);
+
   const form = useForm({
     defaultValues: {
       name: organization?.name || '',
@@ -36,17 +51,6 @@ export const OrganizationForm: React.FC<OrganizationFormProps> = ({
   const handleSubmit = (data: any) => {
     onSubmit(data);
   };
-
-  // Format tags for multi-select component
-  const tagOptions = tags.map(tag => ({
-    value: tag.id,
-    label: tag.name,
-  }));
-
-  const selectedTags = organization?.tags.map(tag => ({
-    value: tag.id,
-    label: tag.name,
-  })) || [];
 
   return (
     <Form {...form}>
@@ -146,8 +150,15 @@ export const OrganizationForm: React.FC<OrganizationFormProps> = ({
               <FormControl>
                 <MultiSelect
                   options={tagOptions}
-                  defaultValue={selectedTags}
-                  onChange={(selected) => field.onChange(selected.map(item => tags.find(tag => tag.id === item.value)))}
+                  defaultValue={selectedTagOptions}
+                  onChange={(selected) => {
+                    // Transformace vybraných možností zpět na tagy
+                    const selectedTags = selected.map(item => 
+                      tags.find(tag => tag.id === item.value)
+                    ).filter(Boolean) as Tag[];
+                    
+                    field.onChange(selectedTags);
+                  }}
                   placeholder="Vyberte štítky..."
                 />
               </FormControl>
