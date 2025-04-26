@@ -1,4 +1,3 @@
-
 import { Contact, Organization, Meeting, Note, Tag, Training, Purchase } from '../types/models';
 
 export const tags: Tag[] = [
@@ -146,7 +145,22 @@ export const meetings: Meeting[] = [
     date: new Date('2024-04-20T10:00:00'),
     duration: 60,
     location: 'Kancelář Technosoft',
-    tags: [tags[0], tags[4]],
+    tags: [
+      {
+        id: 'wellbeing',
+        name: '🟩 Wellbeing (duševní pohoda)',
+        color: '#F2FCE2',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      },
+      {
+        id: 'rozvoj-pedagoga',
+        name: '🩷 Rozvoj dovedností pedagoga',
+        color: '#D946EF',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      }
+    ],
     participants: [contacts[0], contacts[3]],
     isCompleted: true,
     relatedContacts: [contacts[0], contacts[3]],
@@ -162,7 +176,15 @@ export const meetings: Meeting[] = [
     date: new Date('2024-04-25T14:00:00'),
     duration: 90,
     location: 'Online - Microsoft Teams',
-    tags: [tags[1]],
+    tags: [
+      {
+        id: 'pbis',
+        name: '🟨 PBIS (pozitivní chování ve školách)',
+        color: '#FEF7CD',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      }
+    ],
     participants: [contacts[1]],
     isCompleted: false,
     relatedContacts: [contacts[1]],
@@ -183,7 +205,22 @@ export const trainings: Training[] = [
     location: 'Školící místnost',
     trainer: contacts[0],
     participants: [contacts[1], contacts[2]],
-    tags: [tags[0]],
+    tags: [
+      {
+        id: 'socio-emocni-uceni',
+        name: '🟪 Socio-emoční učení',
+        color: '#9b87f5',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      },
+      {
+        id: 'rodicovske-kompetence',
+        name: '🟧 Rodičovské kompetence',
+        color: '#F97316',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      }
+    ],
     relatedContacts: [contacts[0], contacts[1], contacts[2]],
     relatedOrganizations: [organizations[0]],
     materials: 'Prezentace a manuál',
@@ -205,7 +242,15 @@ export const purchases: Purchase[] = [
       { name: 'Software licence - standard', quantity: 5, price: 5000 }
     ],
     purchasedBy: contacts[1],
-    tags: [tags[0]],
+    tags: [
+      {
+        id: 'trauma-pristup',
+        name: '⬜ Trauma respektující přístup',
+        color: '#ffffff',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      }
+    ],
     relatedContacts: [contacts[1]],
     relatedOrganizations: [organizations[0]],
     createdAt: new Date('2024-01-05'),
@@ -220,7 +265,22 @@ export const notes: Note[] = [
     title: 'Poznámka z telefonátu s Janem Novákem',
     description: 'Shrnutí telefonického rozhovoru',
     content: 'Jan projevil zájem o rozšíření stávajícího softwarového řešení. Požaduje cenovou nabídku do konce týdne. Zmínil také potřebu integrace s jejich současným účetním systémem.',
-    tags: [tags[0], tags[4]],
+    tags: [
+      {
+        id: 'ohrozene-deti',
+        name: '🟦 Ohrožené děti',
+        color: '#1EAEDB',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      },
+      {
+        id: 'prevence-nasili',
+        name: '🟥 Prevence násilí v blízkých vztazích',
+        color: '#ea384c',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      }
+    ],
     relatedContacts: [contacts[0]],
     relatedOrganizations: [organizations[0]],
     createdAt: new Date('2024-01-18'),
@@ -232,7 +292,15 @@ export const notes: Note[] = [
     title: 'Příprava smlouvy pro Logistika Plus',
     description: 'Podklady pro vytvoření smlouvy',
     content: 'Připravit návrh smlouvy pro Logistika Plus a.s. zahrnující následující služby: 1) Implementace sledovacího systému, 2) Pravidelná údržba, 3) Školení zaměstnanců. Kontaktní osoba: Petr Černý.',
-    tags: [tags[2]],
+    tags: [
+      {
+        id: 'psychicka-odolnost',
+        name: '🟩‍⬛ Posilování psychické odolnosti dětí',
+        color: '#166534',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      }
+    ],
     relatedContacts: [contacts[2]],
     relatedOrganizations: [organizations[2]],
     createdAt: new Date('2024-01-25'),
