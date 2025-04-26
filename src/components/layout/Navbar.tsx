@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Menu, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ActivityDialog } from '@/components/activities/ActivityDialog';
+import { ContactDialog } from '@/components/contacts/ContactDialog';
+import { organizations, tags } from '@/data/mockData';
 
 interface NavbarProps {
   toggleSidebar: () => void;
@@ -11,14 +14,33 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isActivityDialogOpen, setIsActivityDialogOpen] = useState(false);
+  const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Přesměrování na AI přehledovou stránku s dotazem
       navigate(`/ai-insight?query=${encodeURIComponent(searchQuery)}`);
     }
+  };
+
+  const handleCreateActivity = () => {
+    setIsActivityDialogOpen(true);
+  };
+
+  const handleCreateContact = () => {
+    setIsContactDialogOpen(true);
+  };
+
+  const handleActivitySubmit = (data: any) => {
+    console.log('New activity:', data);
+    setIsActivityDialogOpen(false);
+  };
+
+  const handleContactSubmit = (data: any) => {
+    console.log('New contact:', data);
+    setIsContactDialogOpen(false);
   };
 
   return (
@@ -42,17 +64,31 @@ export const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm" className="hidden sm:flex">
+          <Button variant="outline" size="sm" className="hidden sm:flex" onClick={handleCreateActivity}>
             <Plus size={16} className="mr-1" /> Nová aktivita
           </Button>
-          <Button size="sm" className="hidden sm:flex">
+          <Button size="sm" className="hidden sm:flex" onClick={handleCreateContact}>
             <Plus size={16} className="mr-1" /> Nový kontakt
           </Button>
-          <Button variant="ghost" size="sm" className="sm:hidden">
+          <Button variant="ghost" size="sm" className="sm:hidden" onClick={handleCreateActivity}>
             <Plus size={20} />
           </Button>
         </div>
       </div>
+
+      <ActivityDialog
+        isOpen={isActivityDialogOpen}
+        onClose={() => setIsActivityDialogOpen(false)}
+        onSubmit={handleActivitySubmit}
+      />
+
+      <ContactDialog
+        isOpen={isContactDialogOpen}
+        onClose={() => setIsContactDialogOpen(false)}
+        onSubmit={handleContactSubmit}
+        organizations={organizations}
+        tags={tags}
+      />
     </header>
   );
 };
