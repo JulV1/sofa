@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { Contact, Organization } from '@/types/models';
+import { Contact, Organization, Tag } from '@/types/models';
 import { ContactCard } from './ContactCard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -29,10 +30,10 @@ export const ContactList: React.FC<ContactListProps> = ({ contacts: initialConta
     const lowerCaseSearch = searchTerm.toLowerCase();
     const filtered = initialContacts.filter(contact => {
       const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
-      const orgName = contact.organization?.name.toLowerCase() || '';
+      const orgNames = contact.organizations?.map(org => org.name.toLowerCase()).join(' ') || '';
       return fullName.includes(lowerCaseSearch) || 
              (contact.email && contact.email.toLowerCase().includes(lowerCaseSearch)) ||
-             orgName.includes(lowerCaseSearch);
+             orgNames.includes(lowerCaseSearch);
     });
     
     setFilteredContacts(filtered);

@@ -12,8 +12,9 @@ interface ContactCardProps {
 }
 
 export const ContactCard: React.FC<ContactCardProps> = ({ contact }) => {
-  const { firstName, lastName, email, phone, position, organization, tags } = contact;
+  const { firstName, lastName, email, phone, position, organizations, tags } = contact;
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`;
+  const primaryOrganization = organizations && organizations.length > 0 ? organizations[0] : undefined;
 
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow">
@@ -25,11 +26,11 @@ export const ContactCard: React.FC<ContactCardProps> = ({ contact }) => {
             </Avatar>
             <div>
               <h3 className="font-medium text-lg">{firstName} {lastName}</h3>
-              {position && organization && (
+              {position && primaryOrganization && (
                 <p className="text-gray-500 text-sm flex items-center">
                   <span>{position}</span>
                   <span className="mx-1">•</span>
-                  <span>{organization.name}</span>
+                  <span>{primaryOrganization.name}</span>
                 </p>
               )}
             </div>
@@ -50,10 +51,10 @@ export const ContactCard: React.FC<ContactCardProps> = ({ contact }) => {
               </div>
             )}
             
-            {organization && (
+            {primaryOrganization && (
               <div className="flex items-center text-sm">
                 <Building size={16} className="mr-2 text-gray-400" />
-                <span className="text-gray-600">{organization.name}</span>
+                <span className="text-gray-600">{primaryOrganization.name}</span>
               </div>
             )}
           </div>

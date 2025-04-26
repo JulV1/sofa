@@ -1,3 +1,4 @@
+
 import { Contact, Organization, Meeting, Note, Tag, Training, Purchase } from '../types/models';
 
 export const tags: Tag[] = [
@@ -85,8 +86,8 @@ export const contacts: Contact[] = [
     email: 'jan.novak@technosoft.cz',
     phone: '+420111222333',
     position: 'CEO',
-    organization: organizations[0],
-    organizationId: organizations[0].id,
+    organizations: [organizations[0]],
+    address: 'Technická 1, Praha 6, 160 00',
     tags: [tags[0], tags[3]],
     notes: 'Klíčový rozhodovatel, preferuje komunikaci po telefonu.',
     createdAt: new Date('2024-01-05'),
@@ -99,8 +100,8 @@ export const contacts: Contact[] = [
     email: 'marie.svobodova@marketingpro.cz',
     phone: '+420444555666',
     position: 'Marketing Director',
-    organization: organizations[1],
-    organizationId: organizations[1].id,
+    organizations: [organizations[1]],
+    address: 'Marketingová 2, Praha 5, 150 00',
     tags: [tags[1]],
     notes: 'Komunikuje primárně přes email, rychle reaguje.',
     createdAt: new Date('2024-01-17'),
@@ -113,8 +114,8 @@ export const contacts: Contact[] = [
     email: 'petr.cerny@logistikaplus.cz',
     phone: '+420777888999',
     position: 'Logistics Manager',
-    organization: organizations[2],
-    organizationId: organizations[2].id,
+    organizations: [organizations[2]],
+    address: 'Logistická 3, Brno, 602 00',
     tags: [tags[2]],
     notes: 'Nejlépe dosažitelný v dopoledních hodinách.',
     createdAt: new Date('2024-01-22'),
@@ -127,8 +128,8 @@ export const contacts: Contact[] = [
     email: 'alena.dvorakova@technosoft.cz',
     phone: '+420333222111',
     position: 'CFO',
-    organization: organizations[0],
-    organizationId: organizations[0].id,
+    organizations: [organizations[0]],
+    address: 'Technická 1, Praha 6, 160 00',
     tags: [tags[0]],
     notes: 'Zodpovědná za finanční rozhodnutí.',
     createdAt: new Date('2024-01-10'),

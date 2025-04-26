@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
@@ -38,7 +39,8 @@ const ContactDetail = () => {
     note.relatedContacts.some(c => c.id === contact.id)
   );
 
-  const { firstName, lastName, email, phone, position, organization, tags, notes: contactDescription } = contact;
+  const { firstName, lastName, email, phone, position, organizations, tags, notes: contactDescription } = contact;
+  const primaryOrganization = organizations && organizations.length > 0 ? organizations[0] : undefined;
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`;
 
   const contactInteractions: Interaction[] = [
@@ -103,15 +105,31 @@ const ContactDetail = () => {
                     </div>
                   )}
                   
-                  {organization && (
+                  {primaryOrganization && (
                     <div className="flex items-center">
                       <Building size={18} className="mr-2 text-gray-400" />
-                      <Link to={`/organizations/${organization.id}`} className="text-crm-primary hover:underline">
-                        {organization.name}
+                      <Link to={`/organizations/${primaryOrganization.id}`} className="text-crm-primary hover:underline">
+                        {primaryOrganization.name}
                       </Link>
                     </div>
                   )}
                 </div>
+                
+                {organizations && organizations.length > 1 && (
+                  <div className="mt-6">
+                    <h3 className="text-sm font-medium mb-2">Další organizace</h3>
+                    <div className="space-y-2">
+                      {organizations.slice(1).map(org => (
+                        <div key={org.id} className="flex items-center">
+                          <Building size={16} className="mr-2 text-gray-400" />
+                          <Link to={`/organizations/${org.id}`} className="text-crm-primary hover:underline text-sm">
+                            {org.name}
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 
                 {tags && tags.length > 0 && (
                   <div className="mt-6">
