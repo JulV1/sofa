@@ -53,10 +53,11 @@ export const OpportunityList: React.FC<OpportunityListProps> = ({ opportunities 
     opportunity.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     opportunity.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     opportunity.relatedContacts.some(contact => 
+      contact && contact.firstName && contact.lastName &&
       `${contact.firstName} ${contact.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
     ) ||
     opportunity.relatedOrganizations.some(org => 
-      org.name.toLowerCase().includes(searchQuery.toLowerCase())
+      org && org.name && org.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
 
@@ -117,12 +118,17 @@ export const OpportunityList: React.FC<OpportunityListProps> = ({ opportunities 
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      {opportunity.relatedOrganizations.map(org => org.name).join(', ')}
+                      {opportunity.relatedOrganizations
+                        .filter(org => org)
+                        .map(org => org.name)
+                        .join(', ')}
                     </TableCell>
                     <TableCell>
-                      {opportunity.relatedContacts.map(contact => 
-                        `${contact.firstName} ${contact.lastName}`
-                      ).join(', ')}
+                      {opportunity.relatedContacts
+                        .filter(contact => contact && contact.firstName && contact.lastName)
+                        .map(contact => 
+                          `${contact.firstName} ${contact.lastName}`
+                        ).join(', ')}
                     </TableCell>
                     <TableCell className="text-right font-mono">
                       {formatCurrency(opportunity.value, opportunity.currency)}
