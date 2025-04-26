@@ -1,3 +1,4 @@
+
 // Base entity interface with common properties
 export interface BaseEntity {
   id: string;
@@ -99,4 +100,33 @@ export interface Mention {
   type: 'contact' | 'organization';
   entityId: string;
   displayText: string;
+}
+
+// Opportunity stage enum
+export type OpportunityStage = 
+  'lead' | 
+  'qualified_lead' | 
+  'needs_analysis' | 
+  'offer_sent' | 
+  'negotiations' | 
+  'closed_won' | 
+  'closed_lost';
+
+// Opportunity model
+export interface Opportunity extends BaseEntity {
+  name: string;
+  description?: string;
+  stage: OpportunityStage;
+  stageProgress: number; // 0-100%
+  value: number;
+  currency: string;
+  closeDate?: Date;
+  probability: number; // 0-100%
+  relatedContacts: Contact[];
+  relatedOrganizations: Organization[];
+  relatedActivities: Interaction[];
+  owner?: Contact;
+  tags: Tag[];
+  source?: string;
+  notes?: string;
 }

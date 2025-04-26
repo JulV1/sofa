@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Building, FileText, User, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, Building, FileText, User, Settings, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface SidebarProps {
@@ -13,6 +14,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
     { name: 'Kontakty', path: '/contacts', icon: <Users size={20} /> },
     { name: 'Organizace', path: '/organizations', icon: <Building size={20} /> },
     { name: 'Aktivity', path: '/activities', icon: <FileText size={20} /> },
+    { name: 'Příležitosti', path: '/opportunities', icon: <TrendingUp size={20} /> },
     { name: 'Profil', path: '/profile', icon: <User size={20} /> },
     { name: 'Nastavení', path: '/settings', icon: <Settings size={20} /> },
   ];
